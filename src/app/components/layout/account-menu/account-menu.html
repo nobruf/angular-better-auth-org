@@ -1,0 +1,94 @@
+<div class="relative cursor-pointer account-menu">
+  <span
+    (click)="toggleDropdown()"
+    class="flex items-center gap-3 focus:ring-opacity-50 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all duration-300 ease-out"
+  >
+    <div class="hidden lg:flex flex-col items-start min-w-0">
+      <span class="max-w-32 font-semibold text-white text-sm truncate">{{ userName }}</span>
+      <span class="max-w-32 text-gray-400 text-xs truncate">{{ userEmail }}</span>
+    </div>
+    <div class="relative">
+      @if (userAvatar) {
+      <img
+        [src]="userAvatar"
+        [alt]="userName"
+        class="border-2 border-gray-600 rounded-full w-10 h-10 object-cover"
+      />
+      } @else {
+      <div
+        class="flex justify-center items-center bg-gradient-to-br from-emerald-500 to-emerald-600 border-2 border-gray-600 rounded-full w-10 h-10"
+      >
+        <span class="font-bold text-white text-sm">{{ userInitials }}</span>
+      </div>
+      }
+    </div>
+  </span>
+
+  @if (isOpen) {
+  <div
+    class="top-full right-0 z-50 absolute bg-gray-800 slide-in-from-top-2 shadow-2xl backdrop-blur-xl mt-2 border border-gray-700 rounded-2xl w-44 lg:w-48 animate-in duration-300"
+  >
+    <div class="p-1.5">
+      <button
+        (click)="onProfileClick()"
+        class="group flex items-center gap-2 hover:bg-gray-700 p-1.5 rounded-xl w-full text-gray-300 hover:text-white text-sm transition-all duration-200 ease-out cursor-pointer"
+      >
+        <div class="flex-1 text-left">
+          <div class="font-medium text-sm">Profile</div>
+          <div class="text-gray-500 text-xs">Manage your account</div>
+        </div>
+        <svg
+          class="w-3.5 h-3.5 text-gray-500 group-hover:text-emerald-400 transition-colors duration-200"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </button>
+
+      <div class="bg-gray-700 mx-4 my-1 h-px"></div>
+
+      <button
+        (click)="onSignOut()"
+        class="group flex items-center gap-2 hover:bg-red-900/20 p-1.5 w-full text-red-400 hover:text-red-300 text-sm transition-all duration-200 ease-out cursor-pointer"
+      >
+        <div
+          class="flex justify-center items-center bg-red-900/30 group-hover:bg-red-500 rounded-lg w-7 h-7 transition-colors duration-200"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex-1 text-left">
+          <div>Logout</div>
+        </div>
+        <svg
+          class="w-3.5 h-3.5 text-red-500/50 group-hover:text-red-400 transition-colors duration-200"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  }
+</div>
