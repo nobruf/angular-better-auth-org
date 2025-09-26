@@ -1,0 +1,231 @@
+<div class="pb-14">
+  <div class="gap-4 grid lg:grid-cols-3 lg:grid-rows-2 mt-8 sm:mt-8">
+    <div class="relative lg:row-span-2">
+      <div class="absolute inset-px bg-gray-800 rounded-lg lg:rounded-l-4xl"></div>
+      <div
+        class="relative flex flex-col rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)] h-full overflow-hidden"
+      >
+        <div class="px-8 sm:px-10 pt-8 sm:pt-10 pb-3 sm:pb-0">
+          <p class="mt-2 font-medium text-white text-lg max-lg:text-center tracking-tight">
+            Mobile friendly
+          </p>
+          <p class="mt-2 max-w-lg text-gray-400 text-sm/6 max-lg:text-center">
+            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat
+            commodo.
+          </p>
+        </div>
+        <div class="@container relative max-lg:mx-auto w-full max-lg:max-w-sm min-h-120 grow">
+          <div
+            class="top-10 bottom-0 absolute inset-x-10 bg-gray-900 border-gray-700 border-x-[3cqw] border-t-[3cqw] rounded-t-[12cqw] outline outline-white/20 overflow-hidden"
+          >
+            <img
+              src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
+              alt=""
+              class="size-full object-cover object-top"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-sm rounded-lg lg:rounded-l-4xl outline outline-white/15 pointer-events-none"
+      ></div>
+    </div>
+    <div class="relative max-lg:row-start-1">
+      <div class="absolute inset-px bg-gray-800 rounded-lg max-lg:rounded-t-4xl"></div>
+      <div
+        class="relative flex flex-col rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)] h-full overflow-hidden"
+      >
+        <div class="px-8 sm:px-10 pt-8 sm:pt-10">
+          <p class="mt-2 font-medium text-white text-lg max-lg:text-center tracking-tight">
+            Performance
+          </p>
+          <p class="mt-2 max-w-lg text-gray-400 text-sm/6 max-lg:text-center">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit maiores impedit.
+          </p>
+        </div>
+        <div class="flex flex-1 justify-center items-center px-8 max-lg:pt-10 lg:pb-2 max-lg:pb-12">
+          <!-- Performance Card SVG -->
+          <div class="w-full">
+            <div class="rounded-xl p-6 h-full">
+              <!-- Main Metric -->
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-baseline gap-2">
+                  <span class="text-4xl font-bold text-emerald-400">1.04</span>
+                  <span class="text-emerald-400 text-sm">s</span>
+                </div>
+                <div class="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-1 rounded-full">
+                  -22%
+                </div>
+              </div>
+
+              <!-- Performance Bars -->
+              <div class="flex items-end gap-1 h-8">
+                @for (bar of performanceBars; track $index) {
+                <div
+                  class="w-2 rounded-sm"
+                  [style.height.rem]="bar.height * 0.25"
+                  [class]="bar.opacity === 100 ? 'bg-emerald-500' : 'bg-emerald-500/40'"
+                ></div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-sm rounded-lg max-lg:rounded-t-4xl outline outline-white/15 pointer-events-none"
+      ></div>
+    </div>
+    <div class="relative lg:col-start-2 lg:row-start-2 max-lg:row-start-3">
+      <div class="absolute inset-px bg-gray-800 rounded-lg"></div>
+      <div
+        class="relative flex flex-col rounded-[calc(var(--radius-lg)+1px)] h-full overflow-hidden"
+      >
+        <div class="px-8 sm:px-10 pt-8 sm:pt-10">
+          <p class="mt-2 font-medium text-white text-lg max-lg:text-center tracking-tight">
+            Security
+          </p>
+          <p class="mt-2 max-w-lg text-gray-400 text-sm/6 max-lg:text-center">
+            Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.
+          </p>
+        </div>
+        <div class="@container flex flex-1 items-cente justify-center max-lg:py-6 lg:pb-2">
+          <!-- Security Card -->
+          <div class="h-[min(152px,40cqw)] flex flex-col justify-center items-center">
+            <div class="">
+              <!-- Security Icons with Connections -->
+              <div class="flex items-center justify-center relative w-full">
+                <!-- Cloud Icon -->
+                <div class="relative z-10">
+                  <div
+                    class="w-12 h-12 bg-gray-700/50 border border-gray-600 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-6 h-6 text-emerald-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Connection Line 1 -->
+                <div
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-0.5 bg-gradient-to-r from-emerald-500/60 to-emerald-400/40"
+                ></div>
+
+                <!-- Shield Icon (Center) -->
+                <div class="relative z-20 mx-8">
+                  <div
+                    class="w-16 h-16 bg-emerald-500/20 border-2 border-emerald-500 rounded-full flex items-center justify-center relative"
+                  >
+                    <svg
+                      class="w-8 h-8 text-emerald-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                      ></path>
+                    </svg>
+                    <!-- Verified Badge -->
+                    <div
+                      class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center"
+                    >
+                      <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fill-rule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Connection Line 2 -->
+                <div
+                  class="absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2 w-16 h-0.5 bg-gradient-to-l from-emerald-500/60 to-emerald-400/40"
+                ></div>
+
+                <!-- Server Icon -->
+                <div class="relative z-10">
+                  <div
+                    class="w-12 h-12 bg-gray-700/50 border border-gray-600 rounded-full flex items-center justify-center"
+                  >
+                    <svg
+                      class="w-6 h-6 text-emerald-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-sm rounded-lg outline outline-white/15 pointer-events-none"
+      ></div>
+    </div>
+    <div class="relative lg:row-span-2">
+      <div
+        class="absolute inset-px bg-gray-800 rounded-lg lg:rounded-r-4xl max-lg:rounded-b-4xl"
+      ></div>
+      <div
+        class="relative flex flex-col rounded-[calc(var(--radius-lg)+1px)] lg:rounded-r-[calc(2rem+1px)] max-lg:rounded-b-[calc(2rem+1px)] h-full overflow-hidden"
+      >
+        <div class="px-8 sm:px-10 pt-8 sm:pt-10 pb-3 sm:pb-0">
+          <p class="mt-2 font-medium text-white text-lg max-lg:text-center tracking-tight">
+            Powerful APIs
+          </p>
+          <p class="mt-2 max-w-lg text-gray-400 text-sm/6 max-lg:text-center">
+            Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget sem sodales gravida.
+          </p>
+        </div>
+        <div class="relative w-full min-h-120 grow">
+          <div
+            class="top-10 right-0 bottom-0 left-10 absolute bg-gray-900/60 rounded-tl-xl outline outline-white/10 overflow-hidden"
+          >
+            <div class="flex bg-gray-900 outline outline-white/5">
+              <div class="flex -mb-px font-medium text-gray-400 text-sm/6">
+                <div
+                  class="bg-white/5 px-4 py-2 border-r border-r-white/10 border-b border-b-white/20 text-white"
+                >
+                  NotificationSetting.jsx
+                </div>
+                <div class="px-4 py-2 border-gray-600/10 border-r">App.jsx</div>
+              </div>
+            </div>
+            <div class="px-6 pt-6 pb-14">
+              <!-- Your code example -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-sm rounded-lg lg:rounded-r-4xl max-lg:rounded-b-4xl outline outline-white/15 pointer-events-none"
+      ></div>
+    </div>
+  </div>
+</div>
