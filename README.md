@@ -1,59 +1,392 @@
-# AngularBetterAuthOrg
+# 🚀 Better Auth Org
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.2.
+<div align="center">
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular-20-red?style=for-the-badge&logo=angular)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-1.3.17-blue?style=for-the-badge)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1.13-38B2AC?style=for-the-badge&logo=tailwind-css)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue?style=for-the-badge&logo=typescript)
 
-To start a local development server, run:
+**A modern admin panel for organizations with robust authentication**
 
-```bash
-ng serve
+[📸 Screenshots](#-screenshots) • [✨ Features](#-features) • [🛠️ Technologies](#️-technologies) • [🚀 Installation](#-installation) • [📖 Usage](#-usage)
+
+</div>
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### 🔐 Login Screen
+
+![Login Screen](./public/screenshots/login-screen.png)
+
+### 📝 Register Screen
+
+![Register Screen](./public/screenshots/register-screen.png)
+
+### 📊 Dashboard
+
+![Dashboard Screen](./public/screenshots/dashboard-screen.png)
+
+### ⚙️ Profile Settings
+
+![Profile Screen](./public/screenshots/profile-screen.png)
+
+</div>
+
+---
+
+## ✨ Features
+
+### 🔐 **Complete Authentication**
+
+- ✅ User login and registration
+- ✅ Automatic organization creation on registration
+- ✅ Session management
+- ✅ Password change
+- ✅ Profile updates
+
+### 🏢 **Organization Management**
+
+- ✅ Organization creation
+- ✅ Member invitations
+- ✅ Role management (admin/member)
+- ✅ Member listing
+- ✅ Organization data updates
+
+### 🎨 **Modern Interface**
+
+- ✅ Responsive design with Tailwind CSS
+- ✅ Reusable components
+- ✅ Elegant toast notifications
+- ✅ Form validation
+- ✅ Intuitive navigation
+
+### 🛡️ **Security**
+
+- ✅ Authentication guards
+- ✅ Route protection
+- ✅ Form validation
+- ✅ Secure session management
+
+---
+
+## 🛠️ Technologies
+
+### **Frontend**
+
+- **Angular 20** - Main framework
+- **TypeScript 5.9.2** - Programming language
+- **Tailwind CSS 4.1.13** - CSS framework
+- **RxJS** - Reactive programming
+
+### **Backend API**
+
+- **[Elysia](https://elysiajs.com/)** - Ultra-fast web framework for Bun
+- **[Better Auth](https://www.better-auth.com/)** - Modern authentication system
+- **[Drizzle ORM](https://orm.drizzle.team/)** - Type-safe ORM for TypeScript
+- **[Bun](https://bun.sh/)** - Ultra-fast JavaScript runtime
+- **PostgreSQL** - Relational database
+- **[Zod](https://zod.dev/)** - TypeScript schema validation
+
+### **Authentication**
+
+- **Better Auth 1.3.17** - Modern authentication library
+- **Organization Plugin** - Organization management
+
+### **UI/UX**
+
+- **ngx-sonner** - Toast notifications
+- **Angular Reactive Forms** - Reactive forms
+- **Angular Router** - Routing
+
+### **Development**
+
+- **Angular CLI 20.3.2** - Development tools
+- **PostCSS** - CSS processing
+- **Autoprefixer** - Browser compatibility
+
+---
+
+## 🔗 Backend API
+
+This frontend project connects to a **robust backend API** built with modern technologies:
+
+### **🚀 [Elysia Better Auth API](https://github.com/nobruf/elysia-better-auth)**
+
+The backend is a modern and ultra-fast API built with:
+
+- **⚡ Elysia** - Ultra-fast web framework running on Bun
+- **🔐 Better Auth** - Complete authentication system
+- **📊 Drizzle ORM** - Type-safe ORM with PostgreSQL
+- **🛡️ Zod** - TypeScript schema validation
+- **📝 OpenAPI** - Automatic documentation
+
+### **🔌 Main Endpoints**
+
+```typescript
+// Authentication
+POST   /auth/sign-up     # Create account
+POST   /auth/sign-in     # Login
+POST   /auth/sign-out    # Logout
+GET    /auth/session     # Get current session
+
+// Organizations
+POST   /auth/organization/create     # Create organization
+GET    /auth/organization/list        # List organizations
+POST   /auth/organization/invite      # Invite member
+GET    /auth/organization/members     # List members
+
+// Users
+GET    /users/:id        # Get user by ID
+PUT    /users/:id         # Update user
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### **⚙️ Backend Configuration**
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To use this frontend, you need the backend running:
 
 ```bash
-ng generate component component-name
+# Clone the backend repository
+git clone https://github.com/nobruf/elysia-better-auth.git
+cd elysia-better-auth
+
+# Install dependencies
+bun install
+
+# Configure database
+cp .env.example .env
+# Edit .env with your DATABASE_URL
+
+# Run migrations
+bun run db:migrate
+bun run db:auth:generate
+
+# Start the server
+bun run dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The backend will be available at `http://localhost:4000` and the frontend will connect automatically.
+
+---
+
+## 🚀 Installation
+
+### **Prerequisites**
+
+- Node.js 18+
+- npm or yarn
+- Angular CLI 20+
+- **Bun** (for backend)
+- **PostgreSQL** (for database)
+
+### **1. Configure Backend (Required)**
+
+First, you need to configure the backend API:
 
 ```bash
-ng generate --help
+# Clone the backend repository
+git clone https://github.com/nobruf/elysia-better-auth.git
+cd elysia-better-auth
+
+# Install dependencies
+bun install
+
+# Configure database
+cp .env.example .env
+# Edit .env with your DATABASE_URL
+
+# Run migrations
+bun run db:migrate
+bun run db:auth:generate
+
+# Start the backend server
+bun run dev
 ```
 
-## Building
+The backend will be running at `http://localhost:4000`
 
-To build the project run:
+### **2. Clone Frontend**
 
 ```bash
-ng build
+git clone https://github.com/your-username/angular-better-auth-org.git
+cd angular-better-auth-org
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### **3. Install Dependencies**
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
+### **4. Configure Backend Connection**
 
-For end-to-end (e2e) testing, run:
+The frontend is already configured to connect to the backend at `http://localhost:4000`:
+
+```typescript
+// src/app/services/auth.service.ts
+authClient = createAuthClient({
+  baseURL: 'http://localhost:4000', // Elysia Backend
+  basePath: '/auth',
+  plugins: [organizationClient()],
+});
+```
+
+### **5. Run the Project**
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The frontend will be available at `http://localhost:4200`
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🏗️ System Architecture
+
+This project uses a **modern full-stack architecture** with clear separation between frontend and backend:
+
+```mermaid
+graph TB
+    A[Angular Frontend<br/>localhost:4200] --> B[Elysia API<br/>localhost:4000]
+    B --> C[PostgreSQL<br/>Database]
+    B --> D[Better Auth<br/>Authentication]
+
+    A --> E[Tailwind CSS<br/>Styling]
+    A --> F[Better Auth Client<br/>Auth Management]
+
+    B --> G[Drizzle ORM<br/>Database Layer]
+    B --> H[Zod Validation<br/>Schema Validation]
+```
+
+### **🔄 Data Flow**
+
+1. **Angular Frontend** makes requests to **Elysia API**
+2. **Elysia API** processes authentication with **Better Auth**
+3. **Drizzle ORM** manages operations in **PostgreSQL**
+4. **Responses** return to frontend via **HTTP/JSON**
+
+### **🔐 Integrated Authentication**
+
+- **Frontend**: Better Auth Client for session management
+- **Backend**: Better Auth Server with organization plugins
+- **Database**: Sessions and users stored in PostgreSQL
+- **Security**: HTTPOnly cookies and JWT validation
+
+---
+
+## 📖 Usage
+
+### **Project Structure**
+
+```
+src/
+├── app/
+│   ├── components/          # Reusable components
+│   │   ├── layout/         # Layouts (header, sidebar, etc.)
+│   │   └── ui/            # UI components (button, input)
+│   ├── pages/             # Application pages
+│   │   ├── (auth)/        # Authentication pages
+│   │   └── (protect)/     # Protected pages
+│   ├── services/          # Services (auth, guards)
+│   └── app.routes.ts      # Route configuration
+```
+
+### **Main Features**
+
+#### **🔐 Authentication**
+
+```typescript
+// Login
+await this.authService.signIn(email, password);
+
+// Registration with organization
+await this.authService.signUpWithOrganization(email, password, name, organizationName);
+```
+
+#### **🏢 Organization Management**
+
+```typescript
+// List organizations
+await this.authService.listOrganizations();
+
+// Invite member
+await this.authService.inviteUserToOrganization(
+  organizationId, email, role
+);
+
+// List members
+await this.authService.listMembers(organizationId, limit, offset, ...);
+```
+
+#### **👤 User Management**
+
+```typescript
+// Update profile
+await this.authService.updateUser(name, image);
+
+// Change password
+await this.authService.changePassword(currentPassword, newPassword);
+
+// Manage sessions
+await this.authService.getSessions();
+```
+
+---
+
+## 🚧 In Development
+
+### **Planned Features**
+
+- [ ] Advanced metrics dashboard
+- [ ] Granular permission system
+- [ ] External API integrations
+- [ ] Reports and analytics
+- [ ] Advanced organization settings
+- [ ] Notification system
+- [ ] File upload
+- [ ] Customizable themes
+
+### **Technical Improvements**
+
+- [ ] Internationalization (i18n)
+- [ ] Performance optimizations
+- [ ] Docker containerization
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+---
+
+## 👨‍💻 Author
+
+**Bruno Felipy**
+
+- GitHub: [@nobruf](https://github.com/nobruf)
+- LinkedIn: [Bruno Felipy](https://linkedin.com/in/bruno-felipy-molina)
+
+---
+
+<div align="center">
+
+**⭐ If this project helped you, consider giving it a star! ⭐**
+
+</div>
