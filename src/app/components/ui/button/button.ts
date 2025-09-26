@@ -38,10 +38,11 @@ export class ButtonComponent {
       primary:
         'bg-gradient-to-r from-emerald-500 hover:from-emerald-600 to-emerald-600 hover:to-emerald-700 shadow-lg hover:shadow-emerald-500/25 text-white',
       secondary:
-        'bg-gray-700/50 hover:bg-gray-700 border border-gray-600 text-gray-300 hover:text-white',
+        'bg-gray-100 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white',
       outline:
-        'bg-transparent border border-gray-600 hover:border-emerald-500 text-gray-300 hover:text-emerald-400',
-      ghost: 'bg-gray-800/30 hover:bg-gray-700/50 text-gray-300 hover:text-white',
+        'bg-transparent border border-gray-300 dark:border-gray-600 hover:border-emerald-500 dark:hover:border-emerald-500 text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400',
+      ghost:
+        'bg-gray-100/50 dark:bg-gray-800/30 hover:bg-gray-200/50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white',
       danger:
         'bg-gradient-to-r from-red-500 hover:from-red-600 to-red-600 hover:to-red-700 shadow-lg hover:shadow-red-500/25 text-white',
     };

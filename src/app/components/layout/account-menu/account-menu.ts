@@ -1,7 +1,24 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  input,
+  Input,
+  output,
+  Output,
+  signal,
+  OnInit,
+  OnDestroy,
+  inject,
+  computed,
+  effect,
+} from '@angular/core';
 import { toast } from 'ngx-sonner';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { ThemeService } from '../../../services/theme.service';
+import { AccountRefreshService } from '../../../services/account-refresh.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-account-menu',
@@ -9,30 +26,76 @@ import { Router } from '@angular/router';
   templateUrl: './account-menu.html',
   styles: ``,
 })
-export class AccountMenu {
-  @Input() userName: string = '';
-  @Input() userEmail: string = '';
-  @Input() userAvatar?: string;
-  @Output() profileClick = new EventEmitter<void>();
-  @Output() signOutClick = new EventEmitter<void>();
+export class AccountMenu implements OnInit, OnDestroy {
+  private authService = inject(AuthService);
+  private accountRefreshService = inject(AccountRefreshService);
+  profileClick = output<void>();
+  signOutClick = output<void>();
 
   isOpen = false;
+  private subscription?: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.authService.getSession().then((session) => {
-      this.userName = session.data?.user?.name || '';
-      this.userEmail = session.data?.user?.email || '';
-      this.userAvatar = session.data?.user?.image || '';
-    });
-  }
+  userSession = signal<any>(null);
+  isLoading = signal<boolean>(true);
 
-  get userInitials(): string {
-    return this.userName
+  userName = computed(() => {
+    const session = this.userSession();
+    return session?.data?.user?.name || '';
+  });
+
+  userEmail = computed(() => {
+    const session = this.userSession();
+    return session?.data?.user?.email || '';
+  });
+
+  userAvatar = computed(() => {
+    const session = this.userSession();
+    return session?.data?.user?.image || '';
+  });
+
+  userInitials = computed(() => {
+    const name = this.userName();
+    if (!name) return '';
+
+    return name
       .split(' ')
-      .map((name) => name.charAt(0))
+      .map((namePart: string) => namePart.charAt(0))
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  });
+
+  constructor(private router: Router, public themeService: ThemeService) {
+    effect(() => {
+      this.loadUserSession();
+    });
+  }
+
+  ngOnInit() {
+    this.loadUserSession();
+
+    this.subscription = this.accountRefreshService.refresh$.subscribe(() => {
+      this.loadUserSession();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  private async loadUserSession() {
+    try {
+      this.isLoading.set(true);
+      const session = await this.authService.getSession();
+      this.userSession.set(session);
+    } catch (error) {
+      console.error('Erro ao carregar sessão do usuário:', error);
+      this.userSession.set(null);
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
   toggleDropdown() {
@@ -66,5 +129,9 @@ export class AccountMenu {
       toast.error('Erro ao fazer logout');
       console.error('Sign out error:', error);
     }
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }

@@ -58,8 +58,13 @@ export class AuthService {
     return this.authClient.updateUser({ name, image });
   }
 
+  revokeSession(token: string) {
+    return this.authClient.revokeSession({ token });
+  }
+
   getSessions() {
-    return this.authClient.listSessions();
+    const sessions = this.authClient.listSessions();
+    return sessions;
   }
 
   listOrganizations() {

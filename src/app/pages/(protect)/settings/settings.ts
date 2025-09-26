@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { InputComponent } from '../../../components/ui/input/input';
 import { ButtonComponent } from '../../../components/ui/button/button';
 import { toast } from 'ngx-sonner';
+import { AccountRefreshService } from '../../../services/account-refresh.service';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,12 @@ export class Settings implements OnInit {
   sessions: any[] = [];
   currentSessionId: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private accountRefreshService: AccountRefreshService
+  ) {}
 
   ngOnInit() {
     this.initializeForms();
@@ -81,13 +87,15 @@ export class Settings implements OnInit {
       const { name } = this.profileForm.value;
       const result = await this.authService.updateUser(name, '');
 
-      // Verificar se houve erro na resposta
       if (result.error) {
         throw new Error(result.error.message || 'Failed to update profile');
       }
 
       toast.success('Profile updated successfully!');
       this.profileForm.markAsPristine();
+
+      // Disparar refresh do AccountMenu
+      this.accountRefreshService.triggerRefresh();
     } catch (error: any) {
       console.error('Profile update error:', error);
       toast.error(error.message || 'Error updating profile. Please try again.');
@@ -105,7 +113,6 @@ export class Settings implements OnInit {
       const { currentPassword, newPassword } = this.passwordForm.value;
       const result = await this.authService.changePassword(currentPassword, newPassword);
 
-      // Verificar se houve erro na resposta
       if (result.error) {
         throw new Error(result.error.message || 'Failed to change password');
       }
@@ -182,8 +189,7 @@ export class Settings implements OnInit {
 
   async revokeSession(sessionId: string) {
     try {
-      // Note: You might need to implement a revokeSession method in AuthService
-      // await this.authService.revokeSession(sessionId);
+      await this.authService.revokeSession(sessionId);
       toast.success('Session revoked successfully!');
       this.loadSessions(); // Reload sessions
     } catch (error: any) {

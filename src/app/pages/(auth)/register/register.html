@@ -2,7 +2,7 @@
   <!-- Main Container -->
   <div class="relative mx-auto w-full max-w-6xl">
     <div
-      class="bg-gray-800/50 shadow-2xl backdrop-blur-xl border border-gray-700/50 rounded-3xl overflow-hidden"
+      class="bg-white/50 dark:bg-gray-800/50 shadow-2xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-3xl overflow-hidden"
     >
       <div class="grid lg:grid-cols-2 min-h-[400px] md:min-h-[500px]">
         <!-- Left Side - Register Form -->
@@ -21,10 +21,10 @@
               </svg>
               Better Auth Org
             </div>
-            <h1 class="mb-2 font-bold text-white md:text-xl">
+            <h1 class="mb-2 font-bold text-gray-900 dark:text-white md:text-xl">
               {{ currentStep === 1 ? 'Create your account' : 'Setup your organization' }}
             </h1>
-            <p class="text-gray-400 text-xs md:text-sm lg:text-base">
+            <p class="text-gray-600 dark:text-gray-400 text-xs md:text-sm lg:text-base">
               {{
                 currentStep === 1
                   ? 'Fill in your details to get started'
@@ -36,12 +36,14 @@
           <!-- Progress Bar -->
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
-              <span class="text-xs text-gray-400">Step {{ currentStep }} of {{ totalSteps }}</span>
-              <span class="text-xs text-emerald-400"
+              <span class="text-xs text-gray-600 dark:text-gray-400"
+                >Step {{ currentStep }} of {{ totalSteps }}</span
+              >
+              <span class="text-xs text-emerald-600 dark:text-emerald-400"
                 >{{ getStepProgress() | number : '1.0-0' }}%</span
               >
             </div>
-            <div class="w-full bg-gray-700 rounded-full h-2">
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div
                 class="bg-emerald-500 h-2 rounded-full transition-all duration-300"
                 [style.width.%]="getStepProgress()"
@@ -154,7 +156,9 @@
 
               <!-- Plans Selection -->
               <div class="space-y-3">
-                <label class="block text-sm font-medium text-white mb-3">Choose your plan</label>
+                <label class="block text-sm font-medium text-gray-900 dark:text-white mb-3"
+                  >Choose your plan</label
+                >
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   @for (plan of plans; track plan.id) {
@@ -176,9 +180,13 @@
                             class="w-4 h-4 text-emerald-600 bg-gray-700 border-gray-600 focus:ring-emerald-500"
                           />
                           <div>
-                            <h3 class="font-semibold text-white text-lg">{{ plan.name }}</h3>
+                            <h3 class="font-semibold text-gray-900 dark:text-white text-lg">
+                              {{ plan.name }}
+                            </h3>
                             <div class="flex items-baseline gap-1">
-                              <span class="text-3xl font-bold text-white">{{ plan.price }}</span>
+                              <span class="text-3xl font-bold text-gray-900 dark:text-white">{{
+                                plan.price
+                              }}</span>
                               <span class="text-gray-400 text-sm">{{ plan.period }}</span>
                             </div>
                           </div>
@@ -319,7 +327,7 @@
                   ></path>
                 </svg>
               </div>
-              <h2 class="mb-2 font-bold text-white text-lg md:text-xl">
+              <h2 class="mb-2 font-bold text-gray-900 dark:text-white text-lg md:text-xl">
                 {{ currentStep === 1 ? 'Start your journey' : 'Choose the best plan' }}
               </h2>
             </div>
@@ -363,10 +371,12 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="mb-1 font-semibold text-white text-xs md:text-sm lg:text-lg">
+                  <h3
+                    class="mb-1 font-semibold text-gray-900 dark:text-white text-xs md:text-sm lg:text-lg"
+                  >
                     {{ currentStep === 1 ? 'Team Management' : 'Professional Plan' }}
                   </h3>
-                  <p class="text-gray-300 text-xs">
+                  <p class="text-gray-600 dark:text-gray-300 text-xs">
                     {{
                       currentStep === 1
                         ? 'Organize and manage your team with powerful tools'
@@ -409,10 +419,12 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="mb-1 font-semibold text-white text-xs md:text-sm lg:text-lg">
+                  <h3
+                    class="mb-1 font-semibold text-gray-900 dark:text-white text-xs md:text-sm lg:text-lg"
+                  >
                     {{ currentStep === 1 ? 'Analytics Dashboard' : 'Priority Support' }}
                   </h3>
-                  <p class="text-gray-300 text-xs">
+                  <p class="text-gray-600 dark:text-gray-300 text-xs">
                     {{
                       currentStep === 1
                         ? 'Get insights into your organization performance'
@@ -464,10 +476,12 @@
                   </svg>
                 </div>
                 <div>
-                  <h3 class="mb-1 font-semibold text-white text-xs md:text-sm lg:text-lg">
+                  <h3
+                    class="mb-1 font-semibold text-gray-900 dark:text-white text-xs md:text-sm lg:text-lg"
+                  >
                     {{ currentStep === 1 ? 'Real-time Monitoring' : 'Advanced Integrations' }}
                   </h3>
-                  <p class="text-gray-300 text-xs">
+                  <p class="text-gray-600 dark:text-gray-300 text-xs">
                     {{
                       currentStep === 1
                         ? 'Stay connected with live updates and instant notifications'

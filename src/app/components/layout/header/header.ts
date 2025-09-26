@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AccountMenu } from '../account-menu/account-menu';
@@ -10,6 +10,8 @@ import { AccountMenu } from '../account-menu/account-menu';
   styles: ``,
 })
 export class Header {
+  @ViewChild('accountMenu') accountMenu!: AccountMenu;
+
   isMobileMenuOpen = false;
   activeRoute = '';
 

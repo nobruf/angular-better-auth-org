@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
     const session = await this.authService.getSession();
-    console.log(session);
     if (session.data?.user) {
       return true;
     } else {

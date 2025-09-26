@@ -85,11 +85,11 @@ export class InputComponent implements ControlValueAccessor {
 
     const variantClasses = {
       default:
-        'bg-gray-700/50 border-gray-600 focus:border-transparent focus:ring-2 focus:ring-emerald-500 text-white placeholder-gray-400',
+        'bg-gray-50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 focus:border-transparent focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
       outline:
-        'bg-transparent border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white placeholder-gray-400',
+        'bg-transparent border-gray-300 dark:border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
       ghost:
-        'bg-gray-800/30 border-gray-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white placeholder-gray-400',
+        'bg-gray-100/50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
     };
 
     const errorClasses = this.error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
@@ -107,10 +107,10 @@ export class InputComponent implements ControlValueAccessor {
       lg: 'text-sm md:text-base',
     };
 
-    return `font-medium text-gray-300 ${sizeClasses[this.size]}`;
+    return `font-medium text-gray-700 dark:text-gray-300 ${sizeClasses[this.size]}`;
   }
 
   getErrorClasses(): string {
-    return 'text-red-400 text-xs';
+    return 'text-red-600 dark:text-red-400 text-xs';
   }
 }
