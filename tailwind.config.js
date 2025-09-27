@@ -1,11 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./src/**/*.{html,ts}",
-  ],
+  content: ['./src/**/*.{html,ts}'],
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundColor: ['data-[current=true]'],
+      ringWidth: ['data-[current=true]'],
+
       colors: {
         primary: {
           50: '#eff6ff',
@@ -38,4 +39,4 @@ export default {
     },
   },
   plugins: [],
-}
+};

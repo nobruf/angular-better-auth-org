@@ -1,17 +1,26 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, viewChild, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AccountMenu } from '../account-menu/account-menu';
+import { AuthService } from '../../../services/auth.service';
+import { Organization } from 'better-auth/plugins';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroArrowPathRoundedSquareSolid } from '@ng-icons/heroicons/solid';
+import { ModalChangeOrgComponent } from '../modal-change-org/modal-change-org';
 
 @Component({
   selector: 'app-header',
-  imports: [AccountMenu],
+  imports: [AccountMenu, NgIcon, ModalChangeOrgComponent],
+  providers: [provideIcons({ heroArrowPathRoundedSquareSolid })],
   templateUrl: './header.html',
   styles: ``,
 })
 export class Header {
   @ViewChild('accountMenu') accountMenu!: AccountMenu;
+  private orgModal = viewChild.required<ModalChangeOrgComponent>('orgModal');
 
+  currentOrg: Organization | null = null;
+  private authService = inject(AuthService);
   isMobileMenuOpen = false;
   activeRoute = '';
 
@@ -21,6 +30,11 @@ export class Header {
       .subscribe((event: NavigationEnd) => {
         this.activeRoute = event.url;
       });
+
+    this.authService.getActiveOrganization().subscribe((res) => {
+      if (!res?.data) return;
+      this.currentOrg = res.data;
+    });
   }
 
   toggleMobileMenu() {
@@ -51,5 +65,9 @@ export class Header {
 
   isActive(route: string): boolean {
     return this.activeRoute === route || this.activeRoute.startsWith(route);
+  }
+
+  hadleOpenModalOrg() {
+    this.orgModal().openModal();
   }
 }

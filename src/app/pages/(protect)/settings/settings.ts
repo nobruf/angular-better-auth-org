@@ -1,58 +1,95 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormControl,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
 import { InputComponent } from '../../../components/ui/input/input';
 import { ButtonComponent } from '../../../components/ui/button/button';
 import { toast } from 'ngx-sonner';
-import { AccountRefreshService } from '../../../services/account-refresh.service';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  heroClockSolid,
+  heroComputerDesktopSolid,
+  heroHomeSolid,
+  heroLockClosedSolid,
+  heroShieldCheckSolid,
+  heroUserSolid,
+} from '@ng-icons/heroicons/solid';
+
+interface ProfileForm {
+  name: FormControl;
+}
+
+interface PasswordForm {
+  currentPassword: FormControl;
+  newPassword: FormControl;
+  confirmPassword: FormControl;
+}
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.html',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, NgIcon],
+  providers: [
+    provideIcons({
+      heroUserSolid,
+      heroLockClosedSolid,
+      heroShieldCheckSolid,
+      heroClockSolid,
+      heroComputerDesktopSolid,
+      heroHomeSolid,
+    }),
+  ],
 })
 export class Settings implements OnInit {
-  profileForm!: FormGroup;
-  passwordForm!: FormGroup;
+  profileForm!: FormGroup<ProfileForm>;
+  passwordForm!: FormGroup<PasswordForm>;
 
   isUpdatingProfile = false;
   isChangingPassword = false;
 
   sessions: any[] = [];
   currentSessionId: string = '';
+  private authService = inject(AuthService);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-    private accountRefreshService: AccountRefreshService
-  ) {}
+  constructor() {
+    this.authService.getSession().subscribe((res) => {
+      if (!res?.data) return;
+      this.profileForm?.patchValue({
+        name: res.data.user.name,
+      });
+    });
+  }
 
   ngOnInit() {
     this.initializeForms();
-    this.loadUserData();
     this.loadSessions();
   }
 
   private initializeForms() {
-    this.profileForm = this.fb.group({
-      name: ['', [Validators.required]],
+    this.profileForm = new FormGroup({
+      name: new FormControl('', [Validators.required]),
     });
 
-    this.passwordForm = this.fb.group(
+    this.passwordForm = new FormGroup(
       {
-        currentPassword: ['', [Validators.required]],
-        newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
+        currentPassword: new FormControl('', [Validators.required]),
+        newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required]),
       },
       { validators: this.passwordMatchValidator }
     );
   }
 
-  private passwordMatchValidator(form: FormGroup) {
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const form = control as FormGroup;
     const newPassword = form.get('newPassword');
     const confirmPassword = form.get('confirmPassword');
 
@@ -63,19 +100,6 @@ export class Settings implements OnInit {
     }
 
     return null;
-  }
-
-  private async loadUserData() {
-    try {
-      const session = await this.authService.getSession();
-      if (session?.data?.user) {
-        this.profileForm.patchValue({
-          name: session.data.user.name || '',
-        });
-      }
-    } catch (error) {
-      console.error('Erro ao carregar dados do usuário:', error);
-    }
   }
 
   async onUpdateProfile() {
@@ -93,9 +117,6 @@ export class Settings implements OnInit {
 
       toast.success('Profile updated successfully!');
       this.profileForm.markAsPristine();
-
-      // Disparar refresh do AccountMenu
-      this.accountRefreshService.triggerRefresh();
     } catch (error: any) {
       console.error('Profile update error:', error);
       toast.error(error.message || 'Error updating profile. Please try again.');
@@ -158,7 +179,6 @@ export class Settings implements OnInit {
       const result = await this.authService.getSessions();
       if (result.data) {
         this.sessions = result.data;
-        // Get current session ID from the first session (most recent)
         if (this.sessions.length > 0) {
           this.currentSessionId = this.sessions[0].id;
         }
@@ -191,7 +211,7 @@ export class Settings implements OnInit {
     try {
       await this.authService.revokeSession(sessionId);
       toast.success('Session revoked successfully!');
-      this.loadSessions(); // Reload sessions
+      this.loadSessions();
     } catch (error: any) {
       toast.error('Error revoking session. Please try again.');
     }

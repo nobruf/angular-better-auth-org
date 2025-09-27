@@ -1,13 +1,10 @@
 <div class="flex justify-center items-center h-screen">
-  <!-- Main Container -->
   <div class="relative mx-auto w-full max-w-6xl">
     <div
       class="bg-white/50 dark:bg-gray-800/50 shadow-2xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-3xl overflow-hidden"
     >
       <div class="grid lg:grid-cols-2 min-h-[400px] md:min-h-[500px]">
-        <!-- Left Side - Register Form -->
         <div class="flex flex-col justify-center p-4 md:p-6 lg:p-8">
-          <!-- Header -->
           <div class="mb-4 md:mb-6">
             <div
               class="inline-flex items-center gap-2 bg-emerald-500/10 mb-2 md:mb-3 px-2 py-1 border border-emerald-500/20 rounded-full font-medium text-emerald-400 text-xs"
@@ -33,29 +30,26 @@
             </p>
           </div>
 
-          <!-- Progress Bar -->
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
-              <span class="text-xs text-gray-600 dark:text-gray-400"
+              <span class="text-gray-600 dark:text-gray-400 text-xs"
                 >Step {{ currentStep }} of {{ totalSteps }}</span
               >
-              <span class="text-xs text-emerald-600 dark:text-emerald-400"
+              <span class="text-emerald-600 dark:text-emerald-400 text-xs"
                 >{{ getStepProgress() | number : '1.0-0' }}%</span
               >
             </div>
-            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-gray-200 dark:bg-gray-700 rounded-full w-full h-2">
               <div
-                class="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+                class="bg-emerald-500 rounded-full h-2 transition-all duration-300"
                 [style.width.%]="getStepProgress()"
               ></div>
             </div>
           </div>
 
-          <!-- Step 1: User Registration -->
           @if (currentStep === 1) {
           <div>
             <form [formGroup]="userForm" class="flex flex-col gap-4">
-              <!-- Name Input -->
               <app-input
                 formControlName="name"
                 type="text"
@@ -69,9 +63,8 @@
                        userForm.get('name')?.errors?.['minlength'] ? 'Name must be at least 2 characters' : '')
                     : ''
                 "
-              ></app-input>
+              />
 
-              <!-- Email Input -->
               <app-input
                 formControlName="email"
                 type="email"
@@ -85,9 +78,8 @@
                        userForm.get('email')?.errors?.['email'] ? 'Enter a valid email' : '')
                     : ''
                 "
-              ></app-input>
+              />
 
-              <!-- Password Input -->
               <app-input
                 formControlName="password"
                 type="password"
@@ -101,9 +93,8 @@
                        userForm.get('password')?.errors?.['minlength'] ? 'Password must be at least 6 characters' : '')
                     : ''
                 "
-              ></app-input>
+              />
 
-              <!-- Next Button -->
               <div class="mt-4">
                 <app-button
                   type="button"
@@ -132,13 +123,9 @@
               </div>
             </form>
           </div>
-          }
-
-          <!-- Step 2: Organization Setup -->
-          @if (currentStep === 2) {
+          } @if (currentStep === 2) {
           <div>
             <form [formGroup]="organizationForm" class="flex flex-col gap-4">
-              <!-- Organization Name Input -->
               <app-input
                 formControlName="organizationName"
                 type="text"
@@ -152,39 +139,38 @@
                        organizationForm.get('organizationName')?.errors?.['minlength'] ? 'Name must be at least 2 characters' : '')
                     : ''
                 "
-              ></app-input>
+              />
 
-              <!-- Plans Selection -->
               <div class="space-y-3">
-                <label class="block text-sm font-medium text-gray-900 dark:text-white mb-3"
+                <label class="block mb-3 font-medium text-gray-900 dark:text-white text-sm"
                   >Choose your plan</label
                 >
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="gap-4 grid grid-cols-1 md:grid-cols-2">
                   @for (plan of plans; track plan.id) {
                   <div class="relative cursor-pointer" (click)="selectPlan(plan.id)">
                     <div
-                      class="border rounded-xl p-4 transition-all duration-200 h-full"
+                      class="p-4 border rounded-xl h-full transition-all duration-200"
                       [class]="
                         organizationForm.get('plan')?.value === plan.id
                           ? 'border-emerald-500 bg-emerald-500/10'
                           : 'border-gray-600 hover:border-gray-500'
                       "
                     >
-                      <div class="flex items-center justify-between mb-3">
+                      <div class="flex justify-between items-center mb-3">
                         <div class="flex items-center gap-3">
                           <input
                             type="radio"
                             [value]="plan.id"
                             [checked]="organizationForm.get('plan')?.value === plan.id"
-                            class="w-4 h-4 text-emerald-600 bg-gray-700 border-gray-600 focus:ring-emerald-500"
+                            class="bg-gray-700 border-gray-600 focus:ring-emerald-500 w-4 h-4 text-emerald-600"
                           />
                           <div>
                             <h3 class="font-semibold text-gray-900 dark:text-white text-lg">
                               {{ plan.name }}
                             </h3>
                             <div class="flex items-baseline gap-1">
-                              <span class="text-3xl font-bold text-gray-900 dark:text-white">{{
+                              <span class="font-bold text-gray-900 dark:text-white text-3xl">{{
                                 plan.price
                               }}</span>
                               <span class="text-gray-400 text-sm">{{ plan.period }}</span>
@@ -192,17 +178,17 @@
                           </div>
                         </div>
                         @if (plan.popular) {
-                        <div class="bg-emerald-500 text-white text-xs px-2 py-1 rounded-full">
+                        <div class="bg-emerald-500 px-2 py-1 rounded-full text-white text-xs">
                           Popular
                         </div>
                         }
                       </div>
 
-                      <ul class="text-sm text-gray-300 space-y-2">
+                      <ul class="space-y-2 text-gray-300 text-sm">
                         @for (feature of plan.features; track feature) {
                         <li class="flex items-center gap-2">
                           <svg
-                            class="w-4 h-4 text-emerald-400 flex-shrink-0"
+                            class="flex-shrink-0 w-4 h-4 text-emerald-400"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -222,8 +208,7 @@
                 </div>
               </div>
 
-              <!-- Navigation Buttons -->
-              <div class="grid grid-cols-2 gap-3 mt-6">
+              <div class="gap-3 grid grid-cols-2 mt-6">
                 <app-button
                   type="button"
                   variant="secondary"
@@ -277,8 +262,7 @@
           </div>
           }
 
-          <!-- Login Link -->
-          <div class="text-center mt-6">
+          <div class="mt-6 text-center">
             <p class="text-gray-400 text-xs">
               Already have an account?
               <a
@@ -291,12 +275,10 @@
           </div>
         </div>
 
-        <!-- Right Side - Features -->
         <div
           class="relative flex flex-col justify-center bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 p-4 md:p-6 lg:p-8 overflow-hidden"
         >
           <div class="z-10 relative">
-            <!-- Header -->
             <div class="mb-6 md:mb-8 text-center">
               <div
                 class="inline-flex justify-center items-center bg-emerald-500/20 mb-3 md:mb-4 rounded-2xl w-12 md:w-14 h-12 md:h-14"
@@ -332,9 +314,7 @@
               </h2>
             </div>
 
-            <!-- Features List -->
             <div class="space-y-3 md:space-y-4">
-              <!-- Feature 1 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >
@@ -386,7 +366,6 @@
                 </div>
               </div>
 
-              <!-- Feature 2 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >
@@ -434,7 +413,6 @@
                 </div>
               </div>
 
-              <!-- Feature 3 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >

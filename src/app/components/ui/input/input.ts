@@ -1,116 +1,94 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, booleanAttribute, input, model, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { heroAtSymbolSolid, heroEyeSlashSolid, heroEyeSolid } from '@ng-icons/heroicons/solid';
+
+export type InputType = 'text' | 'email' | 'password' | 'number';
+export type InputSize = 'sm' | 'md' | 'lg';
+export type InputVariant = 'default' | 'outline' | 'ghost';
 
 @Component({
   selector: 'app-input',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, NgIcon],
   templateUrl: './input.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: InputComponent,
       multi: true,
     },
+    provideIcons({ heroAtSymbolSolid, heroEyeSolid, heroEyeSlashSolid }),
   ],
-  styles: ``,
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
-  @Input() placeholder: string = '';
-  @Input() label: string = '';
-  @Input() error: string = '';
-  @Input() disabled: boolean = false;
-  @Input() required: boolean = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() variant: 'default' | 'outline' | 'ghost' = 'default';
+  type = input<InputType>('text');
+  placeholder = input('');
+  value = input('');
+  label = input('');
+  error = input('');
+  disabled = input(false, { transform: booleanAttribute });
+  required = input(false, { transform: booleanAttribute });
+  size = input<InputSize>('md');
+  variant = input<InputVariant>('default');
 
-  value: string = '';
-  isFocused: boolean = false;
-  showPassword: boolean = false;
+  valueModel = model<string>(this.value());
+  showPassword = signal(false);
 
-  private onChange = (value: string) => {};
-  private onTouched = () => {};
+  private onChangeCallback: (v: any) => void = () => {};
+  private onTouchedCallback: () => void = () => {};
 
-  writeValue(value: string): void {
-    this.value = value;
+  writeValue(value: any): void {
+    this.valueModel.set(value ?? '');
+  }
+  registerOnChange(fn: any): void {
+    this.onChangeCallback = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouchedCallback = fn;
   }
 
-  registerOnChange(fn: (value: string) => void): void {
-    this.onChange = fn;
+  handleInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.valueModel.set(value);
+    this.onChangeCallback(value);
   }
 
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+  handleBlur() {
+    this.onTouchedCallback();
+  }
+  togglePasswordVisibility() {
+    this.showPassword.update((v) => !v);
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+  get inputType(): string {
+    return this.type() === 'password' ? (this.showPassword() ? 'text' : 'password') : this.type();
   }
 
-  onInput(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.value = target.value;
-    this.onChange(this.value);
-  }
+  get inputClasses(): string {
+    const base = 'w-full border rounded-xl focus:outline-none transition-all duration-200';
 
-  onFocus(): void {
-    this.isFocused = true;
-  }
-
-  onBlur(): void {
-    this.isFocused = false;
-    this.onTouched();
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
-  }
-
-  getInputType(): string {
-    if (this.type === 'password') {
-      return this.showPassword ? 'text' : 'password';
-    }
-    return this.type;
-  }
-
-  getInputClasses(): string {
-    const baseClasses = 'w-full border rounded-xl focus:outline-none transition-all duration-200';
-
-    const sizeClasses = {
+    const sizeMap: Record<InputSize, string> = {
       sm: 'px-3 py-2 text-xs',
-      md: 'px-3 py-2 md:py-2.5 text-xs md:text-sm',
-      lg: 'px-4 py-3 text-sm md:text-base',
+      md: 'px-3 py-2 md:py-2.5 text-sm',
+      lg: 'px-4 py-3 text-base',
     };
 
-    const variantClasses = {
+    const variantMap: Record<InputVariant, string> = {
       default:
-        'bg-gray-50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 focus:border-transparent focus:ring-2 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+        'bg-gray-50 dark:bg-gray-700/50 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-emerald-500',
       outline:
-        'bg-transparent border-gray-300 dark:border-gray-600 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+        'bg-transparent border-gray-300 dark:border-gray-600 focus:ring-1 focus:ring-emerald-500',
       ghost:
-        'bg-gray-100/50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400',
+        'bg-gray-100/50 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700 focus:ring-1 focus:ring-emerald-500',
     };
 
-    const errorClasses = this.error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
-    const disabledClasses = this.disabled ? 'opacity-50 cursor-not-allowed' : '';
+    const errorClass = this.error() ? 'border-red-500 focus:ring-red-500' : '';
+    const disabledClass = this.disabled() ? 'opacity-50 cursor-not-allowed' : '';
 
-    return `${baseClasses} ${sizeClasses[this.size]} ${
-      variantClasses[this.variant]
-    } ${errorClasses} ${disabledClasses}`;
-  }
-
-  getLabelClasses(): string {
-    const sizeClasses = {
-      sm: 'text-xs',
-      md: 'text-xs md:text-sm',
-      lg: 'text-sm md:text-base',
-    };
-
-    return `font-medium text-gray-700 dark:text-gray-300 ${sizeClasses[this.size]}`;
-  }
-
-  getErrorClasses(): string {
-    return 'text-red-600 dark:text-red-400 text-xs';
+    return `${base} ${sizeMap[this.size()]} ${
+      variantMap[this.variant()]
+    } ${errorClass} ${disabledClass}`;
   }
 }

@@ -1,13 +1,10 @@
 <div class="flex justify-center items-center h-screen">
-  <!-- Main Container -->
   <div class="relative mx-auto w-full max-w-6xl">
     <div
       class="bg-white/50 dark:bg-gray-800/50 shadow-2xl backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-3xl overflow-hidden"
     >
       <div class="grid lg:grid-cols-2 min-h-[400px] md:min-h-[500px]">
-        <!-- Left Side - Login Form -->
         <div class="flex flex-col justify-center p-4 md:p-6 lg:p-8">
-          <!-- Header -->
           <div class="mb-4 md:mb-6">
             <div
               class="inline-flex items-center gap-2 bg-emerald-500/10 mb-2 md:mb-3 px-2 py-1 border border-emerald-500/20 rounded-full font-medium text-emerald-400 text-xs"
@@ -27,9 +24,7 @@
             </p>
           </div>
 
-          <!-- Login Form -->
           <form [formGroup]="loginForm" class="flex flex-col gap-4">
-            <!-- Email Input -->
             <app-input
               formControlName="email"
               type="email"
@@ -43,9 +38,8 @@
                      loginForm.get('email')?.errors?.['email'] ? 'Enter a valid email' : '')
                   : ''
               "
-            ></app-input>
+            />
 
-            <!-- Password Input -->
             <app-input
               formControlName="password"
               type="password"
@@ -59,9 +53,8 @@
                      loginForm.get('password')?.errors?.['minlength'] ? 'Password must be at least 6 characters' : '')
                   : ''
               "
-            ></app-input>
+            />
 
-            <!-- Login Button -->
             <div class="mt-4">
               <app-button
                 type="submit"
@@ -89,7 +82,6 @@
               </app-button>
             </div>
 
-            <!-- Divider -->
             <div class="relative my-3 md:my-4">
               <div class="absolute inset-0 flex items-center">
                 <div class="border-gray-300 dark:border-gray-600 border-t w-full"></div>
@@ -101,9 +93,7 @@
               </div>
             </div>
 
-            <!-- Social Login Buttons -->
             <div class="gap-2 md:gap-2.5 grid grid-cols-3 w-full">
-              <!-- Google -->
               <app-button type="button" variant="secondary" size="sm" [fullWidth]="true">
                 <svg slot="icon-left" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                   <path
@@ -125,7 +115,6 @@
                 </svg>
               </app-button>
 
-              <!-- GitHub -->
               <app-button type="button" variant="secondary" size="sm" [fullWidth]="true">
                 <svg slot="icon-left" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -134,7 +123,6 @@
                 </svg>
               </app-button>
 
-              <!-- Facebook -->
               <app-button type="button" variant="secondary" size="sm" [fullWidth]="true">
                 <svg slot="icon-left" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -144,13 +132,12 @@
               </app-button>
             </div>
 
-            <!-- Register Link -->
             <div class="text-center">
               <p class="text-gray-600 dark:text-gray-400 text-xs">
                 Don't have an account?
                 <a
                   href="/register"
-                  class="font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-200"
+                  class="font-medium text-emerald-600 hover:text-emerald-700 dark:hover:text-emerald-300 dark:text-emerald-400 transition-colors duration-200"
                 >
                   Register
                 </a>
@@ -159,12 +146,10 @@
           </form>
         </div>
 
-        <!-- Right Side - Features -->
         <div
           class="relative flex flex-col justify-center bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 p-4 md:p-6 lg:p-8 overflow-hidden"
         >
           <div class="z-10 relative">
-            <!-- Header -->
             <div class="mb-6 md:mb-8 text-center">
               <div
                 class="inline-flex justify-center items-center bg-emerald-500/20 mb-3 md:mb-4 rounded-2xl w-12 md:w-14 h-12 md:h-14"
@@ -200,9 +185,7 @@
               </h2>
             </div>
 
-            <!-- Features List -->
             <div class="space-y-3 md:space-y-4">
-              <!-- Feature 1 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >
@@ -250,7 +233,6 @@
                 </div>
               </div>
 
-              <!-- Feature 2 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >
@@ -294,7 +276,6 @@
                 </div>
               </div>
 
-              <!-- Feature 3 -->
               <div
                 class="flex items-start gap-2 md:gap-3 bg-white/5 hover:bg-white/10 p-2 md:p-3 border border-white/10 rounded-xl transition-all duration-200"
               >

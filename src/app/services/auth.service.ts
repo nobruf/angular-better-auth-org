@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   getSession() {
-    return this.authClient.getSession();
+    return this.authClient.useSession;
   }
 
   changePassword(currentPassword: string, newPassword: string) {
@@ -68,7 +68,7 @@ export class AuthService {
   }
 
   listOrganizations() {
-    return this.authClient.organization.list();
+    return this.authClient.useListOrganizations;
   }
 
   inviteUserToOrganization(organizationId: string, email: string, role: 'member' | 'admin') {
@@ -104,6 +104,10 @@ export class AuthService {
         id,
       },
     });
+  }
+
+  getActiveOrganization() {
+    return this.authClient.useActiveOrganization;
   }
 
   listInvitations() {
