@@ -43,6 +43,10 @@ export class AuthService {
   }
 
   getSession() {
+    return this.authClient.getSession();
+  }
+
+  useSession() {
     return this.authClient.useSession;
   }
 
@@ -120,26 +124,25 @@ export class AuthService {
 
   listMembers(
     organizationId: string,
-    limit: number,
-    offset: number,
-    sortBy: string,
-    sortDirection: 'asc' | 'desc',
-    filterField: string,
-    filterOperator: 'eq' | 'ne' | 'lt' | 'lte' | 'gt' | 'gte' | 'contains',
-    filterValue: string
+    limit?: number,
+    offset?: number,
+    sortBy?: string,
+    sortDirection?: 'asc' | 'desc',
+    filterField?: string,
+    filterOperator?: 'eq' | 'ne' | 'lt' | 'lte' | 'gt' | 'gte' | 'contains',
+    filterValue?: string
   ) {
-    return this.authClient.organization.listMembers({
-      query: {
-        organizationId,
-        limit,
-        offset,
-        sortBy,
-        sortDirection,
-        filterField,
-        filterOperator,
-        filterValue,
-      },
-    });
+    const query: any = { organizationId };
+
+    if (limit !== undefined) query.limit = limit;
+    if (offset !== undefined) query.offset = offset;
+    if (sortBy) query.sortBy = sortBy;
+    if (sortDirection) query.sortDirection = sortDirection;
+    if (filterField) query.filterField = filterField;
+    if (filterOperator) query.filterOperator = filterOperator;
+    if (filterValue !== undefined) query.filterValue = filterValue;
+
+    return this.authClient.organization.listMembers({ query });
   }
 
   removeMember(organizationId: string, memberIdOrEmail: string) {

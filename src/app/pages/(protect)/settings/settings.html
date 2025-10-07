@@ -1,162 +1,205 @@
-<div class="pb-14">
-  <div class="gap-6 grid lg:grid-cols-2 mt-8">
-    <div
-      class="bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700 rounded-4xl"
-    >
-      <div class="flex items-center gap-3 mb-6">
-        <div class="flex justify-center items-center bg-emerald-500 rounded-lg w-8 h-8">
-          <ng-icon name="heroUserSolid" class="size-6" />
-        </div>
-        <div>
-          <h2 class="font-semibold text-gray-900 dark:text-white text-lg">Personal Information</h2>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">Manage your personal information</p>
-        </div>
-      </div>
-
-      <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()" class="space-y-4">
-        <app-input
-          label="Full Name"
-          type="text"
-          formControlName="name"
-          placeholder="Enter your full name"
-          [error]="
-            profileForm.get('name')?.invalid && profileForm.get('name')?.touched
-              ? 'Name is required'
-              : ''
-          "
-        />
-
-        <div class="flex justify-end pt-2">
-          <app-button
-            type="submit"
-            variant="primary"
-            [loading]="isUpdatingProfile"
-            [disabled]="profileForm.invalid"
+<div class="pb-16 overflow-visible pt-8">
+  <div class="gap-6 grid lg:grid-cols-2 overflow-visible">
+    <section class="relative">
+      <div
+        class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+      ></div>
+      <div class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8">
+        <header class="flex gap-3 items-center">
+          <div
+            class="flex justify-center items-center bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/30 dark:border-emerald-400/30 rounded-2xl w-12 h-12"
           >
-            Save Changes
-          </app-button>
-        </div>
-      </form>
-    </div>
+            <ng-icon
+              name="heroUserSolid"
+              class="text-emerald-500 dark:text-emerald-400 size-6"
+            ></ng-icon>
+          </div>
+          <div>
+            <p class="uppercase tracking-[0.2em] text-xs text-emerald-500 dark:text-emerald-400">
+              Profile
+            </p>
+            <h2 class="font-semibold text-gray-900 dark:text-white text-xl">
+              Personal Information
+            </h2>
+            <span class="text-gray-500 dark:text-gray-300 text-sm"
+              >Manage your personal information</span
+            >
+          </div>
+        </header>
 
-    <div
-      class="bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700 rounded-4xl"
-    >
-      <div class="flex items-center gap-3 mb-6">
-        <div class="flex justify-center items-center bg-red-500 rounded-lg w-8 h-8">
-          <ng-icon name="heroLockClosedSolid" class="size-6" />
-        </div>
-        <div>
-          <h2 class="font-semibold text-gray-900 dark:text-white text-lg">Security</h2>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">
-            Change your password to keep your account secure
-          </p>
-        </div>
+        <form [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()" class="space-y-4">
+          <app-input
+            label="Full Name"
+            type="text"
+            formControlName="name"
+            placeholder="Enter your full name"
+            [error]="
+              profileForm.get('name')?.invalid && profileForm.get('name')?.touched
+                ? 'Name is required'
+                : ''
+            "
+          />
+
+          <div class="flex justify-end mt-2">
+            <app-button
+              type="submit"
+              variant="primary"
+              [loading]="isUpdatingProfile"
+              [disabled]="profileForm.invalid"
+            >
+              Save Changes
+            </app-button>
+          </div>
+        </form>
       </div>
+      <div
+        class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none -z-10"
+      ></div>
+    </section>
 
-      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-4">
-        <app-input
-          label="Current Password"
-          type="password"
-          formControlName="currentPassword"
-          placeholder="Enter your current password"
-          [error]="
-            passwordForm.get('currentPassword')?.invalid &&
-            passwordForm.get('currentPassword')?.touched
-              ? 'Current password is required'
-              : ''
-          "
-        />
-
-        <app-input
-          label="New Password"
-          type="password"
-          formControlName="newPassword"
-          placeholder="Enter your new password"
-          [error]="getPasswordError()"
-        />
-
-        <app-input
-          label="Confirm New Password"
-          type="password"
-          formControlName="confirmPassword"
-          placeholder="Confirm your new password"
-          [error]="getConfirmPasswordError()"
-        />
-
-        <div class="flex justify-end pt-2">
-          <app-button
-            type="submit"
-            variant="danger"
-            [loading]="isChangingPassword"
-            [disabled]="passwordForm.invalid"
+    <section class="relative">
+      <div
+        class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+      ></div>
+      <div class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8">
+        <header class="flex gap-3 items-center">
+          <div
+            class="flex justify-center items-center bg-red-500/10 dark:bg-red-400/10 border border-red-500/30 dark:border-red-400/30 rounded-2xl w-12 h-12"
           >
-            Change Password
-          </app-button>
-        </div>
-      </form>
-    </div>
+            <ng-icon
+              name="heroLockClosedSolid"
+              class="text-red-500 dark:text-red-400 size-6"
+            ></ng-icon>
+          </div>
+          <div>
+            <p class="uppercase tracking-[0.2em] text-xs text-red-500 dark:text-red-400">
+              Security
+            </p>
+            <h2 class="font-semibold text-gray-900 dark:text-white text-xl">Security</h2>
+            <span class="text-gray-500 dark:text-gray-300 text-sm"
+              >Change your password to keep your account secure</span
+            >
+          </div>
+        </header>
+
+        <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="space-y-4">
+          <app-input
+            label="Current Password"
+            type="password"
+            formControlName="currentPassword"
+            placeholder="Enter your current password"
+            [error]="
+              passwordForm.get('currentPassword')?.invalid &&
+              passwordForm.get('currentPassword')?.touched
+                ? 'Current password is required'
+                : ''
+            "
+          />
+
+          <app-input
+            label="New Password"
+            type="password"
+            formControlName="newPassword"
+            placeholder="Enter your new password"
+            [error]="getPasswordError()"
+          />
+
+          <app-input
+            label="Confirm New Password"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Confirm your new password"
+            [error]="getConfirmPasswordError()"
+          />
+
+          <div class="flex justify-end mt-2">
+            <app-button
+              type="submit"
+              variant="danger"
+              [loading]="isChangingPassword"
+              [disabled]="passwordForm.invalid"
+            >
+              Change Password
+            </app-button>
+          </div>
+        </form>
+      </div>
+      <div
+        class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none -z-10"
+      ></div>
+    </section>
   </div>
 
-  <div class="mt-8">
+  <section class="relative mt-6">
     <div
-      class="bg-white dark:bg-gray-800 p-6 border border-gray-200 dark:border-gray-700 rounded-4xl"
-    >
-      <div class="flex items-center gap-3 mb-6">
-        <div class="flex justify-center items-center bg-blue-500 rounded-lg w-8 h-8">
-          <ng-icon name="heroShieldCheckSolid" class="size-6" />
+      class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+    ></div>
+    <div class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8">
+      <header class="flex gap-3 items-center">
+        <div
+          class="flex justify-center items-center bg-blue-500/10 dark:bg-blue-400/10 border border-blue-500/30 dark:border-blue-400/30 rounded-2xl w-12 h-12"
+        >
+          <ng-icon
+            name="heroShieldCheckSolid"
+            class="text-blue-500 dark:text-blue-400 size-6"
+          ></ng-icon>
         </div>
         <div>
-          <h2 class="font-semibold text-gray-900 dark:text-white text-lg">Active Sessions</h2>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">
-            Manage your active sessions across devices
+          <p class="uppercase tracking-[0.2em] text-xs text-blue-500 dark:text-blue-400">
+            Sessions
           </p>
-        </div>
-      </div>
-
-      <div class="space-y-4">
-        @if (sessions.length === 0) {
-        <div class="py-8 text-center">
-          <div
-            class="flex justify-center items-center bg-gray-700 mx-auto mb-4 rounded-full w-12 h-12"
+          <h2 class="font-semibold text-gray-900 dark:text-white text-xl">Active Sessions</h2>
+          <span class="text-gray-500 dark:text-gray-300 text-sm"
+            >Manage your active sessions across devices</span
           >
-            <ng-icon name="heroShieldCheckSolid" class="size-6" />
-          </div>
-          <p class="text-gray-600 dark:text-gray-400">Loading sessions...</p>
+        </div>
+      </header>
+
+      <div class="space-y-3">
+        @if (sessions.length === 0) {
+        <div
+          class="flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-700/60 rounded-2xl px-4 py-10 text-center"
+        >
+          <ng-icon
+            name="heroShieldCheckSolid"
+            class="text-blue-500 dark:text-blue-400 size-10"
+          ></ng-icon>
+          <p class="font-medium text-gray-900 dark:text-white">Loading sessions...</p>
         </div>
         } @else { @for (session of sessions; track session.id) {
         <div
-          class="bg-gray-100/50 dark:bg-gray-700/50 p-4 border border-gray-200 dark:border-gray-600 rounded-4xl"
+          class="bg-white dark:bg-gray-900/60 rounded-3xl p-5 border border-gray-200 dark:border-gray-700"
         >
           <div class="flex justify-between items-start">
             <div class="flex-1">
-              <div class="flex items-center gap-3 mb-2">
+              <div class="flex items-center gap-3 mb-3">
                 <div class="bg-emerald-400 rounded-full w-2 h-2"></div>
-                <span class="font-medium text-gray-900 dark:text-white text-sm"
+                <span class="font-semibold text-gray-900 dark:text-white text-sm"
                   >Current Session</span
                 >
                 @if (session.id === currentSessionId) {
-                <span class="bg-emerald-500/20 px-2 py-1 rounded-full text-emerald-400 text-xs"
+                <span
+                  class="bg-emerald-500/10 dark:bg-emerald-400/10 px-2 py-1 rounded-full text-emerald-500 dark:text-emerald-400 text-xs uppercase tracking-wide"
                   >This Device</span
                 >
                 }
               </div>
 
-              <div class="space-y-1 text-gray-300 text-sm">
+              <div class="space-y-2 text-gray-600 dark:text-gray-300 text-sm">
                 <div class="flex items-center gap-2">
-                  <ng-icon name="heroClockSolid" class="size-6" />
+                  <ng-icon name="heroClockSolid" class="size-4" />
                   <span>Created: {{ formatDate(session.createdAt) }}</span>
                 </div>
 
                 @if (session.ipAddress) {
                 <div class="flex items-center gap-2">
-                  <ng-icon name="heroHomeSolid" class="size-6" />
+                  <ng-icon name="heroHomeSolid" class="size-4" />
                   <span>IP: {{ session.ipAddress }}</span>
                 </div>
                 }
 
                 <div class="flex items-center gap-2">
-                  <ng-icon name="heroShieldCheckSolid" class="size-6" />
+                  <ng-icon name="heroShieldCheckSolid" class="size-4" />
                   <span class="truncate">{{ getBrowserInfo(session.userAgent) }}</span>
                 </div>
               </div>
@@ -165,7 +208,7 @@
             @if (session.id !== currentSessionId) {
             <button
               (click)="revokeSession(session.token)"
-              class="hover:bg-red-500/10 px-3 py-1 rounded-md font-medium text-red-400 hover:text-red-300 text-sm transition-colors"
+              class="text-xs font-medium text-red-500 hover:text-red-400 transition-colors"
             >
               Revoke
             </button>
@@ -175,5 +218,8 @@
         } }
       </div>
     </div>
-  </div>
+    <div
+      class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none -z-10"
+    ></div>
+  </section>
 </div>

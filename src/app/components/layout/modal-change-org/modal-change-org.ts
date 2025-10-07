@@ -23,7 +23,7 @@ export class ModalChangeOrgComponent {
       if (!res?.data) return;
       this.organizations = res.data;
     });
-    this.authService.getSession().subscribe((res) => {
+    this.authService.useSession().subscribe((res) => {
       if (!res?.data) return;
       this.currentOrgId = res.data.session.activeOrganizationId!;
     });

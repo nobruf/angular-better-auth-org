@@ -18,14 +18,16 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
-    return true;
-    // const session = this.authService.getSession();
-    // console.log(session);
-    // if (session.data?.user) {
-    //   return true;
-    // } else {
-    //   this.router.navigate(['/login']);
-    //   return false;
-    // }
+    const session = await this.authService.getSession();
+    if (session === null) {
+      this.authService.signOut();
+      return false;
+    }
+    if (session.data?.user) {
+      return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
+    }
   }
 }

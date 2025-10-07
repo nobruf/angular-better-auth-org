@@ -6,6 +6,7 @@ import { Login } from './pages/(auth)/login/login';
 import { Register } from './pages/(auth)/register/register';
 import { AuthGuard } from './services/auth-guard.service';
 import { ProtectLayout } from './components/layout/protect-layout/protect-layout';
+import { Organization } from './pages/organization/organization';
 
 export const routes: Routes = [
   { path: 'login', component: Login, title: 'Login' },
@@ -25,6 +26,12 @@ export const routes: Routes = [
         component: Dashboard,
         canActivate: [AuthGuard],
         title: 'Dashboard',
+      },
+      {
+        path: 'organization',
+        component: Organization,
+        canActivate: [AuthGuard],
+        title: 'Organization',
       },
       {
         path: 'settings',

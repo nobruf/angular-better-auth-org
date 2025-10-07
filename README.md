@@ -35,6 +35,10 @@
 
 ![Profile Screen](./public/screenshots/profile-screen.png)
 
+### 🏢 Organization Management
+
+![Organization Screen](./public/screenshots/organization-screen.png)
+
 </div>
 
 ---
@@ -51,11 +55,16 @@
 
 ### 🏢 **Organization Management**
 
-- ✅ Organization creation
-- ✅ Member invitations
-- ✅ Role management (admin/member)
-- ✅ Member listing
-- ✅ Organization data updates
+- ✅ Organization creation and updates
+- ✅ Complete organization information panel
+- ✅ Member invitations with role assignment
+- ✅ Role management (Owner/Admin/Member)
+- ✅ Member listing with detailed information
+- ✅ Pending invitations management
+- ✅ Member removal and role updates
+- ✅ Organization slug and logo management
+- ✅ Real-time member count
+- ✅ Custom select components for better UX
 
 ### 🎨 **Modern Interface**
 

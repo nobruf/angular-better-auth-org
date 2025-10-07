@@ -17,7 +17,7 @@ export class AccountMenu {
   currentUser: UserWithInitials | null = null;
 
   constructor(private router: Router, public themeService: ThemeService) {
-    this.authService.getSession().subscribe((res) => {
+    this.authService.useSession().subscribe((res) => {
       if (!res?.data) return;
 
       this.currentUser = {

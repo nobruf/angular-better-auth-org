@@ -1,0 +1,402 @@
+<div class="pb-16 pt-8 overflow-visible">
+  <div class="gap-6 grid auto-rows-[minmax(0,1fr)] lg:grid-cols-5 xl:grid-cols-6 overflow-visible">
+    <section class="relative lg:col-span-3 xl:col-span-4">
+      <div
+        class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+      ></div>
+      <div class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8">
+        <header class="flex flex-wrap justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex justify-center items-center bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/30 dark:border-emerald-400/30 rounded-2xl w-14 h-14"
+            >
+              <ng-icon
+                name="heroBuildingOffice2Solid"
+                class="text-emerald-500 dark:text-emerald-400 size-8"
+              ></ng-icon>
+            </div>
+            <div>
+              <p class="uppercase tracking-[0.2em] text-xs text-emerald-500 dark:text-emerald-400">
+                Active Organization
+              </p>
+              <h2 class="font-semibold text-gray-900 dark:text-white text-2xl">
+                {{ activeOrganization()?.name || 'Loading' }}
+              </h2>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="flex gap-2 items-center bg-gray-900 text-white hover:bg-gray-800 rounded-xl px-4 py-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            (click)="refreshData()"
+            [disabled]="membersLoading() || invitationsLoading()"
+          >
+            <ng-icon name="heroArrowPathSolid" class="size-5"></ng-icon>
+            Refresh
+          </button>
+        </header>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <form
+            class="space-y-4"
+            [formGroup]="updateOrganizationForm"
+            (ngSubmit)="onUpdateOrganization()"
+          >
+            <div>
+              <p class="font-semibold text-gray-900 dark:text-white text-lg">
+                Organization Information
+              </p>
+              <span class="text-gray-500 dark:text-gray-300 text-sm"
+                >Update the main details of your organization</span
+              >
+            </div>
+
+            <app-input
+              formControlName="name"
+              label="Name"
+              placeholder="Enter organization name"
+              [error]="
+                updateOrganizationForm.get('name')?.invalid &&
+                updateOrganizationForm.get('name')?.touched
+                  ? 'Name is required'
+                  : ''
+              "
+            ></app-input>
+
+            <app-input
+              formControlName="slug"
+              label="Slug"
+              placeholder="best-organization"
+              [error]="
+                updateOrganizationForm.get('slug')?.invalid &&
+                updateOrganizationForm.get('slug')?.touched
+                  ? 'Slug is required'
+                  : ''
+              "
+            ></app-input>
+
+            <app-input formControlName="logo" label="Logo" placeholder="Logo URL"></app-input>
+
+            <div class="flex justify-end mt-2">
+              <app-button
+                type="submit"
+                variant="primary"
+                [loading]="isUpdatingOrganization()"
+                [disabled]="updateOrganizationForm.invalid"
+              >
+                Save Changes
+              </app-button>
+            </div>
+          </form>
+
+          <div
+            class="flex flex-col gap-4 bg-gray-900 text-white dark:bg-gray-700/80 rounded-3xl p-6"
+          >
+            <div class="flex flex-col gap-2">
+              <p class="uppercase tracking-[0.3em] text-xs text-gray-400">Status</p>
+              <h3 class="font-semibold text-white text-xl">Overview</h3>
+            </div>
+            <div class="grid gap-4">
+              <div class="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3">
+                <div
+                  class="flex justify-center items-center bg-emerald-500/20 rounded-xl w-10 h-10"
+                >
+                  <ng-icon name="heroShieldCheckSolid" class="text-emerald-400 size-6"></ng-icon>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm">SLUG</p>
+                  <span class="text-gray-200 text-xs">{{ activeOrganization()?.slug || '—' }}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3">
+                <div
+                  class="flex justify-center items-center bg-emerald-500/20 rounded-xl w-10 h-10"
+                >
+                  <ng-icon name="heroSparklesSolid" class="text-emerald-400 size-6"></ng-icon>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm">Created at</p>
+                  <span class="text-gray-200 text-xs">{{
+                    formatDate(activeOrganization()?.createdAt) || '—'
+                  }}</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 bg-white/5 rounded-2xl px-4 py-3">
+                <div
+                  class="flex justify-center items-center bg-emerald-500/20 rounded-xl w-10 h-10"
+                >
+                  <ng-icon name="heroUsersSolid" class="text-emerald-400 size-6"></ng-icon>
+                </div>
+                <div>
+                  <p class="font-semibold text-sm">Total members</p>
+                  <span class="text-gray-200 text-xs">{{ membersTotal() }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none"
+      ></div>
+    </section>
+
+    <section class="relative lg:col-span-2 xl:col-span-2">
+      <div
+        class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+      ></div>
+      <div class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8">
+        <header class="flex gap-3 items-center">
+          <div
+            class="flex justify-center items-center bg-emerald-500/10 border border-emerald-500/30 dark:border-emerald-400/30 rounded-2xl w-12 h-12"
+          >
+            <ng-icon
+              name="heroUserPlusSolid"
+              class="text-emerald-500 dark:text-emerald-400 size-6"
+            ></ng-icon>
+          </div>
+          <div>
+            <p class="uppercase tracking-[0.2em] text-xs text-emerald-500 dark:text-emerald-400">
+              Invites
+            </p>
+            <h3 class="font-semibold text-gray-900 dark:text-white text-xl">Invite new member</h3>
+          </div>
+        </header>
+
+        <form class="space-y-4" [formGroup]="inviteMemberForm" (ngSubmit)="onInviteMember()">
+          <app-input
+            formControlName="email"
+            label="Email"
+            type="email"
+            placeholder="email@company.com"
+            [error]="
+              inviteMemberForm.get('email')?.invalid && inviteMemberForm.get('email')?.touched
+                ? 'Enter a valid email'
+                : ''
+            "
+          ></app-input>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-200">Role</label>
+            <app-select
+              [options]="roleOptions"
+              [value]="inviteMemberForm.get('role')?.value || 'member'"
+              (valueChange)="inviteMemberForm.patchValue({ role: $any($event) })"
+            ></app-select>
+          </div>
+
+          <app-button
+            type="submit"
+            variant="primary"
+            [loading]="isInvitingMember()"
+            [disabled]="inviteMemberForm.invalid"
+          >
+            Send invite
+          </app-button>
+        </form>
+
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <p class="font-semibold text-gray-900 dark:text-white text-lg">Pending invites</p>
+            <span class="text-gray-500 dark:text-gray-300 text-xs">{{
+              pendingInvitations().length
+            }}</span>
+          </div>
+
+          <div class="space-y-3 max-h-[350px] overflow-y-auto pr-2">
+            @if (invitationsLoading()) {
+            <div
+              class="flex gap-3 items-center bg-gray-100 dark:bg-gray-700/60 rounded-2xl px-4 py-3 animate-pulse"
+            >
+              <div class="bg-gray-300 dark:bg-gray-600 rounded-xl w-10 h-10"></div>
+              <div class="flex-1 space-y-2">
+                <div class="bg-gray-300 dark:bg-gray-600 rounded w-1/2 h-3"></div>
+                <div class="bg-gray-200 dark:bg-gray-600 rounded w-1/3 h-3"></div>
+              </div>
+            </div>
+            } @else if (pendingInvitations().length === 0) {
+            <div
+              class="flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-700/60 rounded-2xl px-4 py-10 text-center"
+            >
+              <ng-icon
+                name="heroEnvelopeOpenSolid"
+                class="text-emerald-500 dark:text-emerald-400 size-10"
+              ></ng-icon>
+              <p class="font-medium text-gray-900 dark:text-white">No pending invites</p>
+              <span class="text-gray-500 dark:text-gray-300 text-sm"
+                >Pending invites will appear here</span
+              >
+            </div>
+            } @else { @for (invitation of pendingInvitations(); track invitation.id) {
+            <div
+              class="flex gap-3 items-start bg-gray-100 dark:bg-gray-700/60 rounded-2xl px-4 py-3"
+            >
+              <div
+                class="flex justify-center items-center bg-emerald-500/10 dark:bg-emerald-400/10 rounded-xl w-10 h-10"
+              >
+                <ng-icon
+                  name="heroEnvelopeOpenSolid"
+                  class="text-emerald-500 dark:text-emerald-400 size-5"
+                ></ng-icon>
+              </div>
+              <div class="flex-1">
+                <p class="font-semibold text-gray-900 dark:text-white text-sm">
+                  {{ invitation.email }}
+                </p>
+                <div
+                  class="flex gap-2 flex-wrap items-center text-xs text-gray-500 dark:text-gray-300"
+                >
+                  <span
+                    class="bg-emerald-500/10 dark:bg-emerald-400/10 px-2 py-1 rounded-full text-emerald-500 dark:text-emerald-400 uppercase tracking-wide"
+                    >{{ invitation.role }}</span
+                  >
+                  <span *ngIf="invitation.createdAt"
+                    >Sent on {{ formatDate(invitation.createdAt) }}</span
+                  >
+                </div>
+              </div>
+              <button
+                type="button"
+                class="text-xs font-medium text-red-500 hover:text-red-400 transition-colors"
+                (click)="cancelInvitation(invitation.id)"
+              >
+                Cancel
+              </button>
+            </div>
+            } }
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none"
+      ></div>
+    </section>
+
+    <section class="relative lg:col-span-5 xl:col-span-6 overflow-visible">
+      <div
+        class="absolute inset-px bg-gray-100 dark:bg-gray-800 rounded-4xl border-gray-700 border"
+      ></div>
+      <div
+        class="relative flex flex-col gap-6 rounded-[calc(var(--radius-xl)+1px)] p-8 overflow-visible"
+      >
+        <header class="flex flex-wrap justify-between gap-4 items-center">
+          <div>
+            <p class="uppercase tracking-[0.2em] text-xs text-emerald-500 dark:text-emerald-400">
+              Team
+            </p>
+            <h3 class="font-semibold text-gray-900 dark:text-white text-xl">
+              Organization members
+            </h3>
+            <span class="text-gray-500 dark:text-gray-300 text-sm"
+              >Manage permissions and team participation</span
+            >
+          </div>
+        </header>
+
+        <div class="overflow-x-auto overflow-y-visible -mx-4 px-4">
+          <div class="min-w-full">
+            <div
+              class="grid grid-cols-[minmax(12rem,1.4fr)_minmax(10rem,1fr)_minmax(10rem,1fr)_minmax(8rem,0.8fr)] gap-6 text-xs uppercase tracking-wide text-gray-500 dark:text-gray-300 mb-3"
+            >
+              <span>User</span>
+              <span>Email</span>
+              <span>Role</span>
+              <span>Actions</span>
+            </div>
+
+            <div class="space-y-3 overflow-visible">
+              @if (membersLoading()) {
+              <div
+                class="grid grid-cols-[minmax(12rem,1.4fr)_minmax(10rem,1fr)_minmax(10rem,1fr)_minmax(8rem,0.8fr)] gap-6 bg-gray-100 dark:bg-gray-700/60 rounded-3xl p-4 animate-pulse"
+              >
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-2xl h-10"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-2xl h-10"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-2xl h-10"></div>
+                <div class="bg-gray-300 dark:bg-gray-600 rounded-2xl h-10"></div>
+              </div>
+              } @else if (members().length === 0) {
+              <div
+                class="flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-700/60 rounded-3xl py-12 text-center"
+              >
+                <ng-icon
+                  name="heroUsersSolid"
+                  class="text-emerald-500 dark:text-emerald-400 size-12"
+                ></ng-icon>
+                <p class="font-medium text-gray-900 dark:text-white">No members yet</p>
+                <span class="text-gray-500 dark:text-gray-300 text-sm"
+                  >Invite new people to collaborate in your organization</span
+                >
+              </div>
+              } @else { @for (member of members(); track member.id) {
+              <div
+                class="grid grid-cols-[minmax(12rem,1.4fr)_minmax(10rem,1fr)_minmax(10rem,1fr)_minmax(8rem,0.8fr)] gap-6 bg-white dark:bg-gray-900/60 rounded-3xl p-5 border border-gray-200 dark:border-gray-700"
+              >
+                <div class="flex gap-3 items-center">
+                  <div
+                    class="flex justify-center items-center bg-emerald-500/10 dark:bg-emerald-400/10 rounded-2xl w-12 h-12"
+                  >
+                    @if (member.user?.image) {
+                    <img
+                      [src]="member.user?.image"
+                      [alt]="member.user?.name || member.user?.email || 'Usuário'"
+                      class="rounded-2xl w-full h-full object-cover"
+                    />
+                    } @else {
+                    <span
+                      class="font-semibold text-emerald-500 dark:text-emerald-400 text-sm uppercase"
+                      >{{ getInitials(member.user?.name || member.user?.email) }}</span
+                    >
+                    }
+                  </div>
+                  <div class="truncate">
+                    <p class="font-semibold text-gray-900 dark:text-white text-sm truncate">
+                      {{ member.user?.name || member.user?.email || 'No name' }}
+                    </p>
+                    <span class="text-gray-500 dark:text-gray-300 text-xs"
+                      >Joined on {{ formatDate(member.createdAt) || '—' }}</span
+                    >
+                  </div>
+                </div>
+
+                <div class="truncate flex items-center text-sm text-gray-600 dark:text-gray-300">
+                  {{ member.user?.email || '—' }}
+                </div>
+
+                <div class="flex items-center">
+                  @if (member.role === 'owner') {
+                  <span
+                    class="inline-flex items-center bg-amber-500/10 dark:bg-amber-400/10 px-3 py-2 rounded-xl text-amber-600 dark:text-amber-400 uppercase font-semibold text-xs tracking-wide"
+                  >
+                    Owner
+                  </span>
+                  } @else {
+                  <app-select
+                    [options]="memberRoleOptions"
+                    [value]="member.role"
+                    [disabled]="member.userId === currentUserId()"
+                    (valueChange)="updateMemberRole(member, $any($event))"
+                  ></app-select>
+                  }
+                </div>
+
+                <div class="flex gap-2 items-center justify-end">
+                  <button
+                    type="button"
+                    class="text-xs font-medium text-red-500 hover:text-red-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    (click)="removeMember(member)"
+                    [disabled]="member.role === 'owner' || member.userId === currentUserId()"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              } }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute inset-px shadow-lg shadow-gray-900/10 dark:shadow-black/30 rounded-4xl pointer-events-none -z-10"
+      ></div>
+    </section>
+  </div>
+</div>

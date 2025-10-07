@@ -60,7 +60,7 @@ export class Settings implements OnInit {
   private authService = inject(AuthService);
 
   constructor() {
-    this.authService.getSession().subscribe((res) => {
+    this.authService.useSession().subscribe((res) => {
       if (!res?.data) return;
       this.profileForm?.patchValue({
         name: res.data.user.name,
